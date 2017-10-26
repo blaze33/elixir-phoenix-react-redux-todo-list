@@ -7,6 +7,8 @@ import {createLogger} from 'redux-logger';
 import registerServiceWorker from './registerServiceWorker';
 import App from './containers/App';
 import todoApp from './reducers';
+
+import 'normalize.css'
 import './index.css';
 
 const loggerMiddleware = createLogger();
