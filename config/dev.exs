@@ -38,7 +38,8 @@ config :todo_test, TodoTestWeb.Endpoint,
       ~r{lib/todo_test_web/views/.*(ex)$},
       ~r{lib/todo_test_web/templates/.*(eex)$}
     ]
-  ]
+  ],
+  url: [host: "127.0.0.1"]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
