@@ -3,6 +3,7 @@ defmodule TodoTestWeb.UserSocket do
 
   ## Channels
   # channel "room:*", TodoTestWeb.RoomChannel
+  channel "todo", TodoTestWeb.TodoChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
