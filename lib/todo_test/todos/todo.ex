@@ -6,6 +6,7 @@ defmodule TodoTest.Todos.Todo do
 
   schema "todo" do
     field :label, :string
+    field :completed, :boolean
 
     timestamps()
   end
