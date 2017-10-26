@@ -24,8 +24,8 @@ defmodule TodoTestWeb.TodoChannel do
   end
 
   def handle_in("new:todo", payload, socket) do
-    todo = TodoTest.Todos.create_todo(payload)
-    broadcast socket, "ok", payload
+    TodoTest.Todos.create_todo(payload)
+    broadcast! socket, "new:todo", payload
     {:noreply, socket}
   end
 

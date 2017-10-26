@@ -24,7 +24,7 @@ function todos(state = [], action) {
       return [
         ...state,
         {
-          text: action.text,
+          label: action.text,
           completed: false
         }
       ];

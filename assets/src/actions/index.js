@@ -93,7 +93,7 @@ export function fetchTodos() {
 
     channel.on('new:todo', msg => {
       console.log('new:todo', msg);
-      dispatch(addTodoSuccess(msg.text));
+      dispatch(addTodoSuccess(msg.label));
     });
   };
 }
