@@ -61,7 +61,8 @@ export function addTodo(text) {
     dispatch(addTodoRequest(text));
 
     let payload = {
-      text: text
+      label: text,
+      completed: false
     };
 
     channel.push('new:todo', payload)
