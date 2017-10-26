@@ -14,7 +14,7 @@ defmodule TodoTest.Todos.Todo do
   @doc false
   def changeset(%Todo{} = todo, attrs) do
     todo
-    |> cast(attrs, [:label])
-    |> validate_required([:label])
+    |> cast(attrs, [:label, :completed])
+    |> validate_required([:label, :completed])
   end
 end

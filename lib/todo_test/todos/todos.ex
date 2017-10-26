@@ -18,7 +18,7 @@ defmodule TodoTest.Todos do
 
   """
   def list_todo do
-    Repo.all(Todo)
+    Repo.all(Todo |> order_by(asc: :id))
   end
 
   @doc """

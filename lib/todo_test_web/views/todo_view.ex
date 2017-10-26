@@ -12,6 +12,7 @@ defmodule TodoTestWeb.TodoView do
 
   def render("todo.json", %{todo: todo}) do
     %{id: todo.id,
-      label: todo.label}
+      label: todo.label,
+      completed: todo.completed}
   end
 end

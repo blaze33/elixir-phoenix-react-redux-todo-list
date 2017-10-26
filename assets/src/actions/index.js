@@ -15,6 +15,10 @@ export const ADD_TODO_REQUEST = 'ADD_TODO_REQUEST';
 export const ADD_TODO_SUCCESS = 'ADD_TODO_SUCCESS';
 export const ADD_TODO_FAILURE = 'ADD_TODO_FAILURE';
 
+export const UPDATE_TODO_REQUEST = 'UPDATE_TODO_REQUEST';
+export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
+export const UPDATE_TODO_FAILURE = 'UPDATE_TODO_FAILURE';
+
 export const COMPLETE_TODO = 'COMPLETE_TODO';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
@@ -48,12 +52,24 @@ function addTodoRequest(text) {
   return { type: ADD_TODO_REQUEST, text };
 }
 
-function addTodoSuccess(text) {
-  return { type: ADD_TODO_SUCCESS, text };
+function addTodoSuccess(todo) {
+  return { type: ADD_TODO_SUCCESS, todo };
 }
 
 function addTodoFailure(text, error) {
   return { type: ADD_TODO_FAILURE, text, error };
+}
+
+function updateTodoRequest(label, completed) {
+  return { type: UPDATE_TODO_REQUEST, label, completed };
+}
+
+function updateTodoSuccess(todo) {
+  return { type: UPDATE_TODO_SUCCESS, todo };
+}
+
+function updateTodoFailure(label, completed, error) {
+  return { type: UPDATE_TODO_FAILURE, label, completed, error };
 }
 
 export function addTodo(text) {
@@ -91,15 +107,36 @@ export function fetchTodos() {
       })
     //.after(10000, () => console.log('Networking issue. Still waiting...'));
 
-    channel.on('new:todo', msg => {
-      console.log('new:todo', msg);
-      dispatch(addTodoSuccess(msg.label));
+    channel.on('new:todo', todo => {
+      console.log('new:todo', todo);
+      dispatch(addTodoSuccess(todo));
+    });
+
+    channel.on('update:todo', todo => {
+      console.log('update:todo', todo);
+      dispatch(updateTodoSuccess(todo));
     });
   };
 }
 
-export function completeTodo(index) {
-  return { type: COMPLETE_TODO, index };
+export function updateTodo(todo) {
+  return dispatch => {
+    dispatch(updateTodoRequest());
+
+    const payload = {
+      ...todo,
+      completed: todo.completed ? false : true
+    }
+    console
+    channel.push('update:todo', payload)
+      .receive('ok', response => {
+        console.log('updated TODO', response);
+      })
+      .receive('error', error => {
+        console.error(error);
+        dispatch(updateTodoFailure(todo, error));
+      });
+  }
 }
 
 export function setVisibilityFilter(filter) {

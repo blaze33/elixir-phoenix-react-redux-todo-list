@@ -24,8 +24,16 @@ defmodule TodoTestWeb.TodoChannel do
   end
 
   def handle_in("new:todo", payload, socket) do
-    TodoTest.Todos.create_todo(payload)
-    broadcast! socket, "new:todo", payload
+    {:ok, created} = TodoTest.Todos.create_todo(payload)
+    created_json = TodoTestWeb.TodoView.render("todo.json", todo: created)
+    broadcast! socket, "new:todo", created_json
+    {:reply, {:ok, created_json}, socket}
+  end
+
+  def handle_in("update:todo", payload, socket) do
+    todo = TodoTest.Todos.get_todo!(payload["id"])
+    TodoTest.Todos.update_todo(todo, payload)
+    broadcast! socket, "update:todo", payload
     {:noreply, socket}
   end
 

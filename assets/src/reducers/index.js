@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE, ADD_TODO_REQUEST, ADD_TODO_SUCCESS, ADD_TODO_FAILURE, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters } from '../actions';
+import {
+  UPDATE_TODO_REQUEST, UPDATE_TODO_SUCCESS, UPDATE_TODO_FAILURE,
+  FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE,
+  ADD_TODO_REQUEST, ADD_TODO_SUCCESS, ADD_TODO_FAILURE,
+  COMPLETE_TODO,
+  SET_VISIBILITY_FILTER, VisibilityFilters } from '../actions';
 const { SHOW_ALL } = VisibilityFilters;
 
 function visibilityFilter(state = SHOW_ALL, action) {
@@ -21,26 +26,28 @@ function todos(state = [], action) {
       return state;
 
     case ADD_TODO_SUCCESS:
+      console.log(action)
       return [
         ...state,
-        {
-          label: action.text,
-          completed: false
-        }
+        action.todo
       ];
 
     case ADD_TODO_FAILURE:
       console.error('ADD_TODO_FAILURE');
       return state;
 
+    case UPDATE_TODO_REQUEST:
+      return state;
+
+    case UPDATE_TODO_SUCCESS:
+      return state.map(todo => todo.id === action.todo.id ? action.todo : todo)
+
+    case UPDATE_TODO_FAILURE:
+      console.error('UPDATE_TODO_FAILURE');
+      return state;
+
     case COMPLETE_TODO:
-      return [
-        ...state.slice(0, action.index),
-        Object.assign({}, state[action.index], {
-          completed: true
-        }),
-        ...state.slice(action.index + 1)
-      ];
+      return state.map(todo => todo.id === action.id ? {...todo, completed: true} : todo)
 
     default:
       return state;
