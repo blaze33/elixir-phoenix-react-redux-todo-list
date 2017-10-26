@@ -23,4 +23,5 @@ defmodule TodoTestWeb.Router do
   # scope "/api", TodoTestWeb do
   #   pipe_through :api
   # end
+  resources "/todo", TodoTestWeb.TodoController, except: [:new, :edit]
 end
