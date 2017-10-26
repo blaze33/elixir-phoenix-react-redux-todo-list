@@ -19,6 +19,8 @@ export const UPDATE_TODO_REQUEST = 'UPDATE_TODO_REQUEST';
 export const UPDATE_TODO_SUCCESS = 'UPDATE_TODO_SUCCESS';
 export const UPDATE_TODO_FAILURE = 'UPDATE_TODO_FAILURE';
 
+export const DELETE_TODO_SUCCESS = 'DELETE_TODO_SUCCESS';
+
 export const COMPLETE_TODO = 'COMPLETE_TODO';
 export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
 
@@ -72,6 +74,10 @@ function updateTodoFailure(label, completed, error) {
   return { type: UPDATE_TODO_FAILURE, label, completed, error };
 }
 
+function deleteTodoSuccess(todo) {
+  return { type: DELETE_TODO_SUCCESS, todo };
+}
+
 export function addTodo(text) {
   return dispatch => {
     dispatch(addTodoRequest(text));
@@ -116,6 +122,11 @@ export function fetchTodos() {
       console.log('update:todo', todo);
       dispatch(updateTodoSuccess(todo));
     });
+
+    channel.on('delete:todo', todo => {
+      console.log('delete:todo', todo);
+      dispatch(deleteTodoSuccess(todo));
+    });
   };
 }
 
@@ -127,7 +138,7 @@ export function updateTodo(todo) {
       ...todo,
       completed: todo.completed ? false : true
     }
-    console
+
     channel.push('update:todo', payload)
       .receive('ok', response => {
         console.log('updated TODO', response);
@@ -135,6 +146,22 @@ export function updateTodo(todo) {
       .receive('error', error => {
         console.error(error);
         dispatch(updateTodoFailure(todo, error));
+      });
+  }
+}
+
+
+export function deleteTodo(todo) {
+  return dispatch => {
+
+    const payload = { id: todo.id}
+
+    channel.push('delete:todo', payload)
+      .receive('ok', response => {
+        console.log('deleted TODO', response);
+      })
+      .receive('error', error => {
+        console.error(error);
       });
   }
 }

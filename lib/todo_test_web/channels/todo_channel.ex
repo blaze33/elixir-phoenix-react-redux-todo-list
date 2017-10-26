@@ -37,6 +37,13 @@ defmodule TodoTestWeb.TodoChannel do
     {:noreply, socket}
   end
 
+  def handle_in("delete:todo", payload, socket) do
+    todo = TodoTest.Todos.get_todo!(payload["id"])
+    TodoTest.Todos.delete_todo(todo)
+    broadcast! socket, "delete:todo", payload
+    {:noreply, socket}
+  end
+
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true

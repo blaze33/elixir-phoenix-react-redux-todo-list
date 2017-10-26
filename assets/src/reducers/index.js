@@ -3,7 +3,7 @@ import {
   UPDATE_TODO_REQUEST, UPDATE_TODO_SUCCESS, UPDATE_TODO_FAILURE,
   FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE,
   ADD_TODO_REQUEST, ADD_TODO_SUCCESS, ADD_TODO_FAILURE,
-  COMPLETE_TODO,
+  COMPLETE_TODO, DELETE_TODO_SUCCESS,
   SET_VISIBILITY_FILTER, VisibilityFilters } from '../actions';
 const { SHOW_ALL } = VisibilityFilters;
 
@@ -48,6 +48,9 @@ function todos(state = [], action) {
 
     case COMPLETE_TODO:
       return state.map(todo => todo.id === action.id ? {...todo, completed: true} : todo)
+
+    case DELETE_TODO_SUCCESS:
+      return state.filter(todo => todo.id !== action.todo.id)
 
     default:
       return state;

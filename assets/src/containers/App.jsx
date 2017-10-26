@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTodos, addTodo, updateTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
+import { deleteTodo, fetchTodos, addTodo, updateTodo, setVisibilityFilter, VisibilityFilters } from '../actions';
 import AddTodo from '../components/AddTodo';
 import TodoList from '../components/TodoList';
 import Footer from '../components/Footer';
@@ -27,6 +27,9 @@ class App extends Component {
           isLoading={isLoading}
           onTodoClick={todo =>
             dispatch(updateTodo(todo))
+          }
+          onTodoClickDelete={todo =>
+            dispatch(deleteTodo(todo))
           } />
         <Footer
           filter={visibilityFilter}

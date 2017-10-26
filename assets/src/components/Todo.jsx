@@ -10,6 +10,7 @@ export default class Todo extends Component {
           cursor: this.props.completed ? 'default' : 'pointer'
         }}>
         {this.props.label}
+        <span onClick={e => {e.stopPropagation(); this.props.onClickDelete()}} style={{float: 'right'}}>✘</span>
       </li>
     )
   }
