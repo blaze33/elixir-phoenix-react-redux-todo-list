@@ -15,7 +15,6 @@ use Mix.Config
 # which you typically run after static files are built.
 config :todo_test, TodoTestWeb.Endpoint,
   load_from_system_env: true,
-  url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -56,7 +55,7 @@ config :logger, level: :info
 # Alternatively, you can configure exactly which server to
 # start per endpoint:
 #
-#     config :todo_test, TodoTestWeb.Endpoint, server: true
+config :todo_test, TodoTestWeb.Endpoint, server: true
 #
 
 # Finally import the config/prod.secret.exs
